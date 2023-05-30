@@ -1,0 +1,17 @@
+
+thead{
+    background-color: rgb(16, 105, 179);
+    color: #fff;
+}
+tfoot{
+  background-color: rgb(16, 105, 179);
+    color: #fff;
+}
+h1{
+margin: 20px;
+}
+
+.boton{
+  display: flex;
+  justify-content: center;
+}
