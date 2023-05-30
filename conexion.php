@@ -1,13 +1,16 @@
 <?php
-$serverName = "DESKTOP-33G778R";
-$database = "prospectos";
+    function establecerConexion() {
+    $serverName = "DESKTOP-33G778R";
+    $connectionInfo = array("Database" => "prospectos"); 
 
-try {
-    $conn = new PDO("sqlsrv:server=$serverName;Database=$database");
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Conexión exitosa";
-    global $conn;
-} catch (PDOException $e) {
-    die("Error en la conexión: " . $e->getMessage());
-}
+    $conn = sqlsrv_connect($serverName, $connectionInfo);
+
+    if( $conn ) {
+        echo "Conexión establecida.<br />";
+    }else{
+        echo "Conexión no se pudo establecer.<br />";
+        die( print_r( sqlsrv_errors(), true));
+    }
+    return $conn;
+    }
 ?>
