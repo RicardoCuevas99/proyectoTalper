@@ -10,19 +10,24 @@
 
 let elemento=document.getElementById("#btnAgregar");
 
-elemento.addEventListener("click", function() {
-    $.ajax({
-        url: "capturarProsepecto.php", // La URL del archivo o servicio que deseas llamar
-        method: "POST", // El método HTTP utilizado para la solicitud (GET, POST, etc.)
-        data: {}, // Los datos que deseas enviar al servidor
-        success: function(response) {
-          
-          console.log(response); // Manejar la respuesta del servidor aquí
-        },
-        error: function(xhr, status, error) {
-          // La función que se ejecutará si hay un error en la solicitud
-          console.error(error); // Manejar el error aquí
-        }
-      });
-});
+$(document).ready(function() {
+  $('#btnAgregar').submit(function(event) {
+    event.preventDefault(); // Evita que se envíe el formulario de forma convencional
 
+    // Obtiene los datos del formulario
+    var formData = $(this).serialize();
+
+    // Realiza la petición AJAX
+    $.ajax({
+      url: 'procesar.php', // Ruta al archivo PHP que procesará la petición
+      type: 'POST',
+      data: formData,
+      success: function(response) {
+        alert(response); // Muestra la respuesta del servidor
+      },
+      error: function(xhr, status, error) {
+        console.log(error); // Muestra el error en la consola
+      }
+    });
+  });
+});

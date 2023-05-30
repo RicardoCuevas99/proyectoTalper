@@ -1,17 +1,13 @@
 <?php
-    class Cconexion{
-        public static function ConexionBD(){
-            $host='localhost';
-            $dbname='prospectos';
-        
-            try{
-                $conn = new PDO ("sqlsrv:Server=$host;Database=$dbname");
-                echo "Conexión establecida correctamente";
-            }
-            catch(PDOException $exp){
-                die("no se logro conectar correctamente, Error". $exp->getMessage());
-            }   
-            return $conn;
-        }
-    }
+$serverName = "DESKTOP-33G778R";
+$database = "prospectos";
+
+try {
+    $conn = new PDO("sqlsrv:server=$serverName;Database=$database");
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Conexión exitosa";
+    global $conn;
+} catch (PDOException $e) {
+    die("Error en la conexión: " . $e->getMessage());
+}
 ?>

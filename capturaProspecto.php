@@ -68,10 +68,13 @@
     $Documento= $_POST["documento"] ?? '';
 
     function nuevoProspecto(){
-        $con = new Cconexion();
-        $conn=$con->ConexionBD();
+        $serverName = "DESKTOP-33G778R";
+        $database = "prospectos";
+    
         try{
-            $spName = "sp_crearProspecto";
+            $conn = new PDO("sqlsrv:server=$serverName;Database=$database");
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $spName = "insertar";
             $stmt = $conn->prepare("EXEC $spName @pNombre = ?, @primerApellido = ?, @segundoApellido = ?, @calle = ?, @numCasa = ?, @colonia = ?, @codigoPostal = ?, @telefono = ?, @rfc = ?, @documento = ?");
             global $Nombre, $PrimerApellido, $SegundoApellido, $Calle, $NumCasa, $Colonia, $CodigoPostal, $Telefono, $Rfc, $Documento;
             $stmt->bindParam(1, $Nombre);
@@ -93,5 +96,6 @@
     }
     ?>
 
+    <script src="captura.js"></script>
 </body>
 </html>
