@@ -74,7 +74,7 @@
         try{
             $conn = new PDO("sqlsrv:server=$serverName;Database=$database");
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $spName = "insertar";
+            $spName = "sp_crearProspecto";
             $stmt = $conn->prepare("EXEC $spName @pNombre = ?, @primerApellido = ?, @segundoApellido = ?, @calle = ?, @numCasa = ?, @colonia = ?, @codigoPostal = ?, @telefono = ?, @rfc = ?, @documento = ?");
             global $Nombre, $PrimerApellido, $SegundoApellido, $Calle, $NumCasa, $Colonia, $CodigoPostal, $Telefono, $Rfc, $Documento;
             $stmt->bindParam(1, $Nombre);
