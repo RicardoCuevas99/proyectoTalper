@@ -52,6 +52,22 @@
 </div>
 
 <?php
+function listarProspectos(){
+  try{
+    $conn = new PDO("sqlsrv:server=DESKTOP-33G778R;database=prospectos");
+    $query="select nombre, primerApellido, segundoApellido, estatus from prospectos";
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $prospectos = array();
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $prospectos[] = $row;
+    }
+    $json = json_encode($prospectos);
+} catch(Exception $e) {
+    echo "Error al mostrar los datos " . $e->getMessage();
+}
+} 
 
 ?>
 

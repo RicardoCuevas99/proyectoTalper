@@ -1,12 +1,12 @@
-// let Nombre=document.getElementById("nombre");
-// let PrimerApellido=document.getElementById("primerApellido");
-// let SegundoApellido=document.getElementById("segundoApellido");
-// let Calle=document.getElementById("calle");
-// let Colonia=document.getElementById("colonia");
-// let CodigoPostal=document.getElementById("codigoPostal");
-// let Telefono=document.getElementById("telefono");
-// let Rfc=document.getElementById("Rfc");
-// let Documento=document.getElementById("documento"); 
+let Nombre=document.getElementById("nombre").Value;
+let PrimerApellido=document.getElementById("primerApellido").Value;
+let SegundoApellido=document.getElementById("segundoApellido").Value;
+let Calle=document.getElementById("calle").Value;
+let Colonia=document.getElementById("colonia").Value;
+let CodigoPostal=document.getElementById("codigoPostal").Value;
+let Telefono=document.getElementById("telefono").Value;
+let Rfc=document.getElementById("Rfc").Value;
+let Documento=document.getElementById("documento").Value; 
 
 let elemento=document.getElementById("#btnAgregar");
 
