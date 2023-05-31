@@ -54,38 +54,43 @@
     </div>
     
     <?php
-    
-    require_once 'conexion.php';
 
-    $Nombre = $_POST["nombre"];
-    $PrimerApellido = $_POST["primerApellido"];
-    $SegundoApellido = $_POST["segundoApellido"];
-    $Calle = $_POST["calle"];
-    $NumCasa = $_POST["numCasa"];
-    $Colonia = $_POST["colonia"];
-    $CodigoPostal = $_POST["codigoPostal"];
-    $Telefono = $_POST["telefono"];
-    $Rfc = $_POST["Rfc"];
-    $Documento = $_POST["documento"];
-    
+    if(isset($_POST['btnAgregar'])){
 
-if(isset($_POST['btnAgregar'])){
+        $Nombre = $_POST["nombre"];
+        $PrimerApellido = $_POST["primerApellido"];
+        $SegundoApellido = $_POST["segundoApellido"];
+        $Calle = $_POST["calle"];
+        $NumCasa = $_POST["numCasa"];
+        $Colonia = $_POST["colonia"];
+        $CodigoPostal = $_POST["codigoPostal"];
+        $Telefono = $_POST["telefono"];
+        $Rfc = $_POST["Rfc"];
+        $Documento = $_POST["documento"];
 
-    // function nuevoProspecto(){
-        $conexion=establecerConexion();
         try{
-            $query = "EXEC sp_crearProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
-            $params = array($Nombre,$PrimerApellido, $SegundoApellido, $Calle, $NumCasa, $Colonia, $CodigoPostal, $Telefono, $Rfc, $Documento);  
-            $resultado = sqlsrv_query($conexion, $query, $params);
-            $resultado->execute();
-            echo "se ha insertado correctamente";
-        }catch(PDOException $e) {
-            echo "Error al insertar" . $e->getMessage();
+            $conn = new PDO("sqlsrv:server=DESKTOP-33G778R;database=prospectos");
+            $stmt = $conn->prepare("EXEC sp_crearProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
+            $stmt->bindParam(1, $Nombre);
+            $stmt->bindParam(2, $PrimerApellido);
+            $stmt->bindParam(3, $SegundoApellido);
+            $stmt->bindParam(4, $Calle);
+            $stmt->bindParam(5, $NumCasa);
+            $stmt->bindParam(6, $Colonia);
+            $stmt->bindParam(7, $CodigoPostal);
+            $stmt->bindParam(8, $Telefono);
+            $stmt->bindParam(9, $Rfc);
+            $stmt->bindParam(10, $Documento);
+            $stmt->execute();
+            var_dump($stmt);
+            echo "Se ha insertado correctamente";
+        } catch(Exception $e) {
+            echo "Error al insertar: " . $e->getMessage();
         }
     // }
-}
-    ?>
+    }   
 
+    ?>
     <!-- <script src="captura.js"></script> -->
 </body>
 </html>
