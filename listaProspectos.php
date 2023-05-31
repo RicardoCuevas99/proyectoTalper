@@ -27,11 +27,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <td>1</td>
-                  <td>Ricardo</td>
-                  <td>Lopez</td>
-                  <td>Cuevas</td>
-                  <td>enviado</td>
+                  <?php  foreach($datos as $fila) : ?>
+                    <?php $cantidad=$cantidad+1 ?>
+                    <tr>
+                    <?php ?>
+                      <td> <?php echo $cantidad; ?> </td>
+                      <td> <?php echo $fila->nombre; ?> </td>
+                      <td> <?php echo $fila->primerApellido; ?> </td>
+                      <td> <?php echo $fila->segundoApellido; ?> </td>
+                      <td> <?php echo $fila->estatus; ?> </td>
+                    </tr>
+                    <?php endforeach;?>
                 </tbody>
                 <tfoot>
                 <tr>
@@ -52,23 +58,19 @@
 </div>
 
 <?php
-function listarProspectos(){
-  try{
-    $conn = new PDO("sqlsrv:server=DESKTOP-33G778R;database=prospectos");
-    $query="select nombre, primerApellido, segundoApellido, estatus from prospectos";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $prospectos = array();
-
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $prospectos[] = $row;
+  require_once 'conexion.php';
+    try{
+      $cantidad=0;
+      $conn=establecerConexion();
+      $stmt = $conn->prepare("select nombre, primerApellido, segundoApellido, estatus from prospectos");
+      $stmt->execute();
+      $datos=$stmt->fetchAll(Pdo::FETCH_ASSOC);
+      var_dump($datos);
+      echo "consulta hecha con exito ";
+    }catch(PDOException $e)
+    {
+      echo "Error el encontrar registros: " . $e->getMessage();
     }
-    $json = json_encode($prospectos);
-} catch(Exception $e) {
-    echo "Error al mostrar los datos " . $e->getMessage();
-}
-} 
-
 ?>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

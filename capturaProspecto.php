@@ -55,8 +55,9 @@
     
     <?php
 
-    if(isset($_POST['btnAgregar'])){
+    require_once 'conexion.php';
 
+    if(isset($_POST['btnAgregar'])){
         $Nombre = $_POST["nombre"];
         $PrimerApellido = $_POST["primerApellido"];
         $SegundoApellido = $_POST["segundoApellido"];
@@ -66,23 +67,19 @@
         $CodigoPostal = $_POST["codigoPostal"];
         $Telefono = $_POST["telefono"];
         $Rfc = $_POST["Rfc"];
-        $Documento = $_POST["documento"];
-
         try{
-            $conn = new PDO("sqlsrv:server=DESKTOP-33G778R;database=prospectos");
-            $stmt = $conn->prepare("EXEC sp_crearProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?, ?");
-            $stmt->bindParam(1, $Nombre);
-            $stmt->bindParam(2, $PrimerApellido);
-            $stmt->bindParam(3, $SegundoApellido);
-            $stmt->bindParam(4, $Calle);
-            $stmt->bindParam(5, $NumCasa);
-            $stmt->bindParam(6, $Colonia);
-            $stmt->bindParam(7, $CodigoPostal);
-            $stmt->bindParam(8, $Telefono);
-            $stmt->bindParam(9, $Rfc);
-            $stmt->bindParam(10, $Documento);
+            $conn=establecerConexion();
+            $stmt = $conn->prepare("EXEC sp_crearProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?");
+            $stmt->bindParam(1, $Nombre, PDO::PARAM_STR);
+            $stmt->bindParam(2, $PrimerApellido, PDO::PARAM_STR);
+            $stmt->bindParam(3, $SegundoApellido,PDO::PARAM_STR);
+            $stmt->bindParam(4, $Calle,PDO::PARAM_STR);
+            $stmt->bindParam(5, $NumCasa,PDO::PARAM_INT);
+            $stmt->bindParam(6, $Colonia,PDO::PARAM_STR);
+            $stmt->bindParam(7, $CodigoPostal,PDO::PARAM_INT);
+            $stmt->bindParam(8, $Telefono,PDO::PARAM_STR);
+            $stmt->bindParam(9, $Rfc, PDO::PARAM_STR);
             $stmt->execute();
-            var_dump($stmt);
             echo "Se ha insertado correctamente";
         } catch(Exception $e) {
             echo "Error al insertar: " . $e->getMessage();
