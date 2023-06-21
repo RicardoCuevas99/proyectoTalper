@@ -1,9 +1,42 @@
+<?php
+include 'conexion.php';
+
+if(isset($_POST)){
+    $Nombre = $_POST["nombre"];
+    $PrimerApellido = $_POST["primerApellido"];
+    $SegundoApellido = $_POST["segundoApellido"];
+    $Calle = $_POST["calle"];
+    $NumCasa = $_POST["numCasa"];
+    $Colonia = $_POST["colonia"];
+    $CodigoPostal = $_POST["codigoPostal"];
+    $Telefono = $_POST["telefono"];
+    $Rfc = $_POST["Rfc"];
+    try{
+        $stmt = $conn->prepare("EXEC sp_creaarProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?");
+        $stmt->bindParam(1, $Nombre);
+        $stmt->bindParam(2, $PrimerApellido);
+        $stmt->bindParam(3, $SegundoApellido);
+        $stmt->bindParam(4, $Calle);
+        $stmt->bindParam(5, $NumCasa);
+        $stmt->bindParam(6, $Colonia);
+        $stmt->bindParam(7, $CodigoPostal);
+        $stmt->bindParam(8, $Telefono);
+        $stmt->bindParam(9, $Rfc);
+        $stmt->execute();
+        echo "Se ha insertado correctamente";
+    } catch(Exception $e) {
+        echo "Error al insertar: " . $e->getMessage();
+    }
+}   
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="captura.css">
+    <link rel="stylesheet" href="./styles/captura.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js" integrity="sha512-uMtXmF28A2Ab/JJO2t/vYhlaa/3ahUOgj1Zf27M5rOo8/+fcTUVH0/E0ll68njmjrLqOBjXM3V9NiPFL5ywWPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>capturar prospecto</title>
 </head>
@@ -13,7 +46,7 @@
             <h2 class="card-header text-center">Capturar prospecto</h2>
             <div class="card-body">
                 <legend>Datos del prospecto</legend>
-                <form action="capturaProspecto.php" method="post">
+                <form action="capturaProspecto.php" method="post" enctype="multipart/form-data">
                     <label for="nombre">Nombre: </label>
                     <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre" required><br>
             
@@ -53,41 +86,5 @@
         </div>
     </div>
     
-    <?php
-
-    require_once 'conexion.php';
-
-    if(isset($_POST['btnAgregar'])){
-        $Nombre = $_POST["nombre"];
-        $PrimerApellido = $_POST["primerApellido"];
-        $SegundoApellido = $_POST["segundoApellido"];
-        $Calle = $_POST["calle"];
-        $NumCasa = $_POST["numCasa"];
-        $Colonia = $_POST["colonia"];
-        $CodigoPostal = $_POST["codigoPostal"];
-        $Telefono = $_POST["telefono"];
-        $Rfc = $_POST["Rfc"];
-        try{
-            $conn=establecerConexion();
-            $stmt = $conn->prepare("EXEC sp_crearProspecto ?, ?, ?, ?, ?, ?, ?, ?, ?");
-            $stmt->bindParam(1, $Nombre, PDO::PARAM_STR);
-            $stmt->bindParam(2, $PrimerApellido, PDO::PARAM_STR);
-            $stmt->bindParam(3, $SegundoApellido,PDO::PARAM_STR);
-            $stmt->bindParam(4, $Calle,PDO::PARAM_STR);
-            $stmt->bindParam(5, $NumCasa,PDO::PARAM_INT);
-            $stmt->bindParam(6, $Colonia,PDO::PARAM_STR);
-            $stmt->bindParam(7, $CodigoPostal,PDO::PARAM_INT);
-            $stmt->bindParam(8, $Telefono,PDO::PARAM_STR);
-            $stmt->bindParam(9, $Rfc, PDO::PARAM_STR);
-            $stmt->execute();
-            echo "Se ha insertado correctamente";
-        } catch(Exception $e) {
-            echo "Error al insertar: " . $e->getMessage();
-        }
-    // }
-    }   
-
-    ?>
-    <!-- <script src="captura.js"></script> -->
 </body>
 </html>
